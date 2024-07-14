@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "feature/devops" ]
+  pull_request:
+    branches: [ "feature/devops" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+    - run: |
+    docker build . --file Dockerfile --tag assaf765/cv-next-repo:fromGit
+    docker push assaf765/cv-next-repo:fromGit
+    echo "finished building and integrating the code in the image"
