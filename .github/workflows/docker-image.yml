@@ -16,6 +16,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build the Docker image
     - run: |
-    docker build . --file Dockerfile --tag assaf765/cv-next-repo:fromGit
+    docker build cv_next/. --file Dockerfile --tag assaf765/cv-next-repo:fromGit
     docker push assaf765/cv-next-repo:fromGit
     echo "finished building and integrating the code in the image"
