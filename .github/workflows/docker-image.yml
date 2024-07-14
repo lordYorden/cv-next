@@ -15,18 +15,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build ./cv_next --file ./cv_next/Dockerfile --tag assaf765/cv-next-repo:fromGit
+      run: docker build ./cv_next --file ./cv_next/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ secrets.DOCKERHUB_TAG }}
     
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: assaf765
-        password: dckr_pat_2ifZ_mDGwigb_vOVLYC7-_E-uRY
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - name: pushing the image
-      run: docker push assaf765/cv-next-repo:fromGit
+      run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPONAME }}:${{ secrets.DOCKERHUB_TAG }}
     - name: finishing the creating image
       run: echo "finished building and integrating the code in the image"
 
     - name: CD PIPE - rebuilding the app
-      run: "curl -H \"Content-Type: application/json\" -H \"Authorization: Bearer dop_v1_05428114f25839ef85734bde97797724483e582331fdc84cfec0fd4b0cd387ef\" \"https://api.digitalocean.com/v2/apps/3e2f1be4-4a2e-4e4d-afca-16a64dabb8c6/deployments\" -XPOST -d '{\"force_build\": true}'"
+      run: "curl -H \"Content-Type: application/json\" -H \"Authorization: Bearer ${{ secrets.DIGITALOCEAN_TOKEN }}\" \"https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_DP_ID }}/deployments\" -XPOST -d '{\"force_build\": true}'"
 
