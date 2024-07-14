@@ -28,5 +28,5 @@ jobs:
       run: echo "finished building and integrating the code in the image"
 
     - name: CD PIPE - rebuilding the app
-      run: "curl -s -H \"Content-Type: application/json\" -H \"Authorization: Bearer ${{ secrets.DIGITALOCEAN_TOKEN }}\" \"https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_DP_ID }}/deployments\" -XPOST -d '{\"force_build\": true}'"
+      run: "curl -s -o /dev/null -H \"Content-Type: application/json\" -H \"Authorization: Bearer ${{ secrets.DIGITALOCEAN_TOKEN }}\" \"https://api.digitalocean.com/v2/apps/${{ secrets.DIGITALOCEAN_DP_ID }}/deployments\" -XPOST -d '{\"force_build\": true}'"
 
