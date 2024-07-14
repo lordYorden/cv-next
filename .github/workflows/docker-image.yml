@@ -15,7 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-    - run: |
-    docker build cv_next/. --file Dockerfile --tag assaf765/cv-next-repo:fromGit
-    docker push assaf765/cv-next-repo:fromGit
-    echo "finished building and integrating the code in the image"
+      run: docker build cv_next/. --file Dockerfile --tag assaf765/cv-next-repo:fromGit
+    - name: pushing the image
+      run: docker push assaf765/cv-next-repo:fromGit
+    - name: finishing the yml
+      run: echo "finished building and integrating the code in the image"
