@@ -28,5 +28,5 @@ jobs:
       run: echo "finished building and integrating the code in the image"
 
     - name: CD PIPE - rebuilding the app
-      run: "curl -H \"Content-Type: application/json\" -H \"Authorization: Bearer dop_v1_392c55bfd2413dfb56ad37c30d8afc3833bfa9e0656bda64b0c581c6ceb6427f\" \"https://api.digitalocean.com/v2/apps/3e2f1be4-4a2e-4e4d-afca-16a64dabb8c6/deployments\" -XPOST -d '{\"force_build\": true}'"
+      run: "curl -H \"Content-Type: application/json\" -H \"Authorization: Bearer dop_v1_6d150fedcea1c93b456883e1b0399e5c12e4fbd6963ae798799bace611441ac6\" \"https://api.digitalocean.com/v2/apps/3e2f1be4-4a2e-4e4d-afca-16a64dabb8c6/deployments\" -XPOST -d '{\"force_build\": true}'"
 
