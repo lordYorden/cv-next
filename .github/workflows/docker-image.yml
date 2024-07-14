@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Image CICD
 
 on:
   push:
@@ -24,5 +24,9 @@ jobs:
         password: dckr_pat_2ifZ_mDGwigb_vOVLYC7-_E-uRY
     - name: pushing the image
       run: docker push assaf765/cv-next-repo:fromGit
-    - name: finishing the yml
+    - name: finishing the creating image
       run: echo "finished building and integrating the code in the image"
+
+    - name: CD PIPE - rebuilding the app
+      run: "curl -H \"Content-Type: application/json\" -H \"Authorization: Bearer dop_v1_3edd5f150674e1ec54e47f50f3ebb8daae04080387ece665ba5bed4565b38188\" \"https://api.digitalocean.com/v2/apps/4f6c71e2-1e90-4762-9fee-6cc4a0a9f2cf/deployments\" -XPOST -d '{\"force_build\": true}'"
+
