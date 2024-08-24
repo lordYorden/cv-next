@@ -1,5 +1,5 @@
 "use server";
-
+import { transformToPreviewLink } from "@/lib/utils";
 import { uploadCV, getCvsByUserId } from "@/server/api/cvs";
 import { transformGoogleViewOnlyUrl } from "@/helpers/cvLinkRegexHelper";
 import { redirect } from "next/navigation";
@@ -8,7 +8,7 @@ import logger from "@/server/base/logger";
 export interface InputValues {
   link: string;
   description: string;
-  catagoryId: number[] | null
+  catagoryId: number[] | null;
 }
 
 export const checkUploadCV = async ({
@@ -39,6 +39,21 @@ export const checkUploadCV = async ({
     return "Regex invalid!";
   }
 
+  const res = await fetch(transformToPreviewLink(transformedURL), {
+    method: "HEAD",
+  });
+
+  if (res.status !== 200) {
+    logger.error("Couldn't Find The CV", cvData.link);
+    return "Invalid URL for CV";
+  }
+
+  const cookieHeader = res.headers.get("set-cookie");
+  if (!cookieHeader || !cookieHeader.includes("COMPASS")) {
+    logger.error("COMPASS cookie not found", cvData.link);
+    return "CV File is Private";
+  }
+
   const cvToUpload: NewCvModel = {
     document_link: transformedURL,
     description: cvData.description,
@@ -57,10 +72,10 @@ export const checkUploadCV = async ({
     return "Error uploading";
   }
 
-  return null
+  return null;
 };
 
 export const canUserUploadACV = async (userId: string) => {
   const cvsOfUser = await getCvsByUserId(userId);
-  return !cvsOfUser || cvsOfUser.length < 5
-}
+  return !cvsOfUser || cvsOfUser.length < 5;
+};
